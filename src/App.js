@@ -7,8 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ChatIcon from '@material-ui/icons/Chat';
 import MessaageContent from "./MessageContent"
 import './App.css';
-// import chats from "./data/smallChat.json"
-import chats from "./data/chat.json"
+import chats from "./data/smallChat.json"
+// import chats from "./data/chat.json"
 
 function App() {
 
