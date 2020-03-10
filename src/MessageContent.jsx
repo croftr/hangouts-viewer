@@ -40,7 +40,7 @@ const MessageContent = ({ conversation }) => {
                 return (           
                     <React.Fragment>
                         <span>{event.event_type}</span>
-                        <span> {event.hangout_event.event_type}</span>
+                        <span> {event.hangout_event && event.hangout_event.event_type}</span>
                     </React.Fragment>
                 )
 
