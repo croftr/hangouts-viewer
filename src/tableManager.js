@@ -67,7 +67,13 @@ export const convertForTable = (data) => {
             { title: "Date", field: "date", type: "datetime" },
             { title: 'Type', field: 'type' },
             { title: 'Content', field: 'content' },
-            { title: 'Image', field: 'image', render: rowData =>  <a href={rowData.image}><img src={rowData.image} style={{ width: 100, height: 100 }}/> </a>}
+            {                 
+                field: 'image', 
+                sorting: false, 
+                searchable: false,
+                disableClick: true,
+                render: rowData =>  <a href={rowData.image}><img src={rowData.image} style={{ width: 100, height: 100 }}/> </a>
+            }
         ],
         rows: data.events.map(event => { return { date: new Date(event.timestamp / 1000), type: event.event_type, content: deriveContent(event), image: getImage(event) } }),
     }
