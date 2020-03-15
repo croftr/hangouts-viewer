@@ -37,9 +37,10 @@ export const convertForTable = (data) => {
 
     return {
         columns: [
+            { title: "Date", field: "date", type: "date" },
             { title: 'Type', field: 'type' },
             { title: 'Content', field: 'content' },
         ],
-        rows: data.events.map(event => { return { type: event.event_type, content: deriveContent(event) } }),
+        rows: data.events.map(event => { return { date: new Date(event.timestamp / 1000), type: event.event_type, content: deriveContent(event) } }),
     }
 }

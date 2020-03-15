@@ -57,7 +57,7 @@ function App() {
   const chatMeta = (conversation) => {
     return (
       <React.Fragment>
-        <Typography>Started on ${startDate(conversation.conversation.conversation)}</Typography>
+        <Typography>Started on {startDate(conversation.conversation.conversation)}</Typography>
         <ul style={{ paddingLeft: 16 }}>
           {conversation.conversation.conversation.participant_data.map(participant =>
             <li>{participant.fallback_name}</li>
