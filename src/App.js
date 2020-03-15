@@ -54,6 +54,21 @@ function App() {
     }
   }
 
+  const chatMeta = (conversation) => {
+    return (
+      <React.Fragment>
+        <Typography>Started on ${startDate(conversation.conversation.conversation)}</Typography>
+        <ul style={{ paddingLeft: 16 }}>
+          {conversation.conversation.conversation.participant_data.map(participant =>
+            <li>{participant.fallback_name}</li>
+          )}
+        </ul>
+      </React.Fragment>
+    )
+
+
+  }
+
   return (
     <div className="App">
 
@@ -70,13 +85,13 @@ function App() {
           <List component="nav" aria-label="main mailbox folders">
 
             {chats.conversations.map(conversation =>
-              <ListItem button onClick={() => selectChat(conversation)}>
+              <ListItem alignItems="flex-start" button onClick={() => selectChat(conversation)}>
                 <ListItemIcon>
                   <ChatIcon />
                 </ListItemIcon>
                 <ListItemText
                   primary={`${conversation.events.length} messages`}
-                  secondary={`Started on ${startDate(conversation.conversation.conversation)}`}
+                  secondary={chatMeta(conversation)}
                 />
               </ListItem>
             )}
