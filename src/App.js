@@ -4,9 +4,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { CircularProgress, Typography, Input  } from '@material-ui/core';
+import { CircularProgress, Typography, Input } from '@material-ui/core';
 import ChatIcon from '@material-ui/icons/Chat';
 import MessaageContent from "./MessageContent"
+import Table from "./Table"
+import { convertForTable } from "./tableManager"
 import './App.css';
 
 function App() {
@@ -14,14 +16,18 @@ function App() {
   const [selectedConversation, setSelectedConversation] = React.useState();
   const [chats, setChats] = React.useState({ conversations: [] });
   const [showSpinner, setShowSpinner] = React.useState(false);
+  const [tableData, setTableData] = React.useState()
 
   const startDate = (messageData) => {
     return new Date(messageData.self_conversation_state.invite_timestamp / 1000).toLocaleDateString()
   }
 
   const selectChat = (conversation) => {
-    setShowSpinner(true);    
+    setShowSpinner(true);
     //need delay for spinner to render
+
+    setTableData(convertForTable(conversation));
+
     setTimeout(() => setSelectedConversation(conversation), 500);
   }
 
@@ -49,16 +55,17 @@ function App() {
   }
 
   return (
-    <div className="App" style={{ padding: 16 }}>
+    <div className="App">
 
-      <div style={{ display: "flex", marginBottom: 16, paddingTop: 16 }}>
-        <Input type="file" onChange={showFile} color="primary" />        
-      </div>
+      <div id="listContentWrapper" style={{ display: "flex", flexDirection: "row", height: "calc(100vh - 130px)" }}>
 
-      <Typography >Conversations {chats.conversations.length}</Typography >
+        <div id="listWrapper" style={{ padding: 16, minWidth: 300, overflowY: "auto", height: "100%" }}>
 
-      <div id="listContentWrapper" style={{ display: "flex", flexDirection: "row", height: "calc(100vh - 30px)" }}>
-        <div id="listWrapper" style={{ marginRight: 16, minWidth: 300, overflowY: "auto", height: "100%" }}>
+          <div style={{ display: "flex", marginBottom: 16, paddingTop: 16 }}>
+            <Input type="file" onChange={showFile} color="primary" />
+          </div>
+
+          <Typography >Conversations {chats.conversations.length}</Typography >
 
           <List component="nav" aria-label="main mailbox folders">
 
@@ -76,17 +83,12 @@ function App() {
           </List>
         </div>
 
-        <div id="contentWrapper" style={{ display: "flex", flex: 3, flexDirection: "column", overflowY: "auto" }}>
-          
-          { showSpinner && !selectedConversation && (
-            <div style={{ display: "flex", flexDirection: "column", padding: 16, alignSelf: "center" }}>
-              <Typography>Loading your conversation</Typography>
-              <span style={{ alignSelf: "center", marginTop: 16 }}><CircularProgress /></span>
-            </div>
-          )}
+        <div id="contentWrapper" style={{ display: "flex", flex: 3, flexDirection: "column" }}>
+
+          <Table data={tableData} isLoading={showSpinner && !selectedConversation} />
         </div>
 
-        {selectedConversation && <MessaageContent conversation={selectedConversation} />}
+        {/* {selectedConversation && <MessaageContent conversation={selectedConversation} />} */}
 
       </div>
 

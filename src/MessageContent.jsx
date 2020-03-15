@@ -49,8 +49,7 @@ const MessageContent = ({ conversation }) => {
         }
 
     }
-
-    // You can use Hooks here!
+    
     return (
         <div>
             <p>Id: {conversation.conversation.conversation_id.id}</p>
