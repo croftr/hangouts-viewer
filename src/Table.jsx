@@ -9,7 +9,7 @@ const Table = ({ isLoading,  data = { columns: [], rows: []} } ) => {
                 isLoading={isLoading}
                 columns={data.columns}
                 data={data.rows}
-                options={{ pageSize: 1000, maxBodyHeight: "calc(100vh - 120px)" }}
+                options={{ pageSize: 1000, maxBodyHeight: "calc(100vh - 120px)", pageSizeOptions: [100, 500, 1000] }}
                 title="Chat"
             />
         </div>
