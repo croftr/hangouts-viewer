@@ -13,22 +13,29 @@ import './App.css';
 
 function App() {
 
-  const [selectedConversation, setSelectedConversation] = React.useState();
+  // const [selectedConversation, setSelectedConversation] = React.useState();
   const [chats, setChats] = React.useState({ conversations: [] });
   const [showSpinner, setShowSpinner] = React.useState(false);
-  const [tableData, setTableData] = React.useState()
+  const [tableData, setTableData] = React.useState();
+  const [selectedIndex, setSelectedIndex] = React.useState();
 
   const startDate = (messageData) => {
     return new Date(messageData.self_conversation_state.invite_timestamp / 1000).toLocaleDateString()
   }
 
-  const selectChat = (conversation) => {
-    setShowSpinner(true);
+  const selectChat = (conversation, index) => {
+
+    setTableData(undefined); 
+    setShowSpinner(true);    
+    setSelectedIndex(index);
+    setTableData(convertForTable(conversation));
+    
     //need delay for spinner to render
 
-    setTableData(convertForTable(conversation));
-
-    setTimeout(() => setSelectedConversation(conversation), 500);
+    
+    
+  // setTimeout(() => setTableData(convertForTable(conversation)), 1000);
+    
   }
 
   const showFile = () => {
@@ -84,8 +91,13 @@ function App() {
 
           <List component="nav" aria-label="main mailbox folders">
 
-            {chats.conversations.map(conversation =>
-              <ListItem alignItems="flex-start" button onClick={() => selectChat(conversation)}>
+            {chats.conversations.map( (conversation, index) =>
+              <ListItem 
+                alignItems="flex-start" 
+                button 
+                onClick={() => {setTableData(undefined);  selectChat(conversation, index)} }
+                selected={selectedIndex === index}
+                >
                 <ListItemIcon>
                   <ChatIcon />
                 </ListItemIcon>
@@ -100,7 +112,7 @@ function App() {
 
         <div id="contentWrapper" style={{ display: "flex", flex: 3, flexDirection: "column" }}>
 
-          <Table data={tableData} isLoading={showSpinner && !selectedConversation} />
+          <Table data={tableData} isLoading={showSpinner && !tableData} />
         </div>
 
         {/* {selectedConversation && <MessaageContent conversation={selectedConversation} />} */}
