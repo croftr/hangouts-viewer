@@ -69,7 +69,7 @@ function App() {
   return (
     <div className="App">
 
-      <div id="listContentWrapper" style={{ display: "flex", flexDirection: "row", height: "calc(100vh - 30px)" }}>
+      <div id="listContentWrapper" style={{ display: "flex", flexDirection: "row", height: "calc(100vh - 34px)" }}>
 
         <div id="listWrapper" style={{ padding: 16, minWidth: 300, overflowY: "auto", height: "100%" }}>
 
