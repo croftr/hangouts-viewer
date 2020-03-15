@@ -7,12 +7,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ChatIcon from '@material-ui/icons/Chat';
 import MessaageContent from "./MessageContent"
 import './App.css';
-import chats from "./data/smallChat.json"
-// import chats from "./data/chat.json"
 
 function App() {
 
   const [selectedConversation, setSelectedConversation] = React.useState();
+  const [chats, setChats] = React.useState();
 
   const startDate = (messageData) => {
     return new Date(messageData.self_conversation_state.invite_timestamp / 1000).toLocaleDateString()
@@ -35,15 +34,46 @@ function App() {
     setSelectedConversation(conversationId.id)
   }
 
-  return (
-    <div className="App" style={{ }}>
+    const showFile = () => {
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+         var preview = document.getElementById('show-text');
+         var file = document.querySelector('input[type=file]').files[0];
+         var reader = new FileReader()
 
-      <div style={{}}>Conversations {chats.conversations.length}</div>
+         var textFile = /.json/;
+
+         if (file.type.match(textFile)) {
+            reader.onload = function (event) {
+              // preview.innerHTML = event.target.result;
+              const loadedChats = JSON.parse(event.target.result);                            
+              setChats(loadedChats);
+            }
+         } else {
+            preview.innerHTML = "<span class='error'>It doesn't seem to be a text file!</span>";
+         }
+         reader.readAsText(file);
+
+   } else {
+      alert("Your browser is too old to support HTML5 File API");
+   }
+  }
+
+  return (
+    <div className="App" style={{}}>
+
+      <div>
+        <input type="file" onChange={showFile} />
+        <div id="show-text">Choose text File</div>
+      </div>
+
+      <div style={{}}>Conversations {chats && chats.conversations ? chats.conversations.length : 0}</div>
 
       <div id="listContentWrapper" style={{ display: "flex", flexDirection: "row", height: "calc(100vh - 30px)" }}>
         <div id="listWrapper" style={{ marginRight: 16, minWidth: 300, overflowY: "auto", height: "100%" }}>
+          
           <List component="nav" aria-label="main mailbox folders">
-            {chats.conversations.map(conversation =>
+          
+            {chats && chats.conversations.map(conversation =>
               <ListItem button onClick={() => setSelectedConversation(conversation)}>
                 <ListItemIcon>
                   <ChatIcon />
