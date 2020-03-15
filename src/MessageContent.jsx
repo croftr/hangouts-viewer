@@ -52,7 +52,7 @@ const MessageContent = ({ conversation }) => {
 
     // You can use Hooks here!
     return (
-        <div style={{ display: "flex", flex: 3, flexDirection: "column", overflowY: "auto" }}>
+        <div>
             <p>Id: {conversation.conversation.conversation_id.id}</p>
             <ul>
                 {conversation.conversation.conversation.participant_data.map(participant =>
