@@ -50,7 +50,7 @@ export const convertForTable = (data) => {
 
     return {
         columns: [
-            { title: "Date", field: "date", type: "date" },
+            { title: "Date", field: "date", type: "datetime" },
             { title: 'Type', field: 'type' },
             { title: 'Content', field: 'content' },
         ],
