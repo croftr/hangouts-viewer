@@ -4,16 +4,14 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { CircularProgress, Typography, Input } from '@material-ui/core';
+import { Typography, Input } from '@material-ui/core';
 import ChatIcon from '@material-ui/icons/Chat';
-import MessaageContent from "./MessageContent"
 import Table from "./Table"
 import { convertForTable } from "./tableManager"
 import './App.css';
 
 function App() {
 
-  // const [selectedConversation, setSelectedConversation] = React.useState();
   const [chats, setChats] = React.useState({ conversations: [] });
   const [showSpinner, setShowSpinner] = React.useState(false);
   const [tableData, setTableData] = React.useState();
@@ -25,17 +23,11 @@ function App() {
 
   const selectChat = (conversation, index) => {
 
-    setTableData(undefined); 
-    setShowSpinner(true);    
+    setTableData(undefined);
+    setShowSpinner(true);
     setSelectedIndex(index);
     setTableData(convertForTable(conversation));
-    
-    //need delay for spinner to render
 
-    
-    
-  // setTimeout(() => setTableData(convertForTable(conversation)), 1000);
-    
   }
 
   const showFile = () => {
@@ -72,8 +64,6 @@ function App() {
         </ul>
       </React.Fragment>
     )
-
-
   }
 
   return (
@@ -83,21 +73,21 @@ function App() {
 
         <div id="listWrapper" style={{ padding: 16, minWidth: 300, overflowY: "auto", height: "100%" }}>
 
-          <div style={{ display: "flex", marginBottom: 16, paddingTop: 16 }}>
-            <Input type="file" onChange={showFile} color="primary" />
+          <div style={{ display: "flex", marginBottom: 16, paddingTop: 4 }}>
+            <Input type="file" onChange={showFile} color="secondary" style={{ paddingBottom: 16 }} />
           </div>
 
-          <Typography >Conversations {chats.conversations.length}</Typography >
+          {chats.conversations.length > 0 && <Typography style={{ marginLeft: 16 }} >{chats.conversations.length} Conversations</Typography >}
 
           <List component="nav" aria-label="main mailbox folders">
 
-            {chats.conversations.map( (conversation, index) =>
-              <ListItem 
-                alignItems="flex-start" 
-                button 
-                onClick={() => {setTableData(undefined);  selectChat(conversation, index)} }
+            {chats.conversations.map((conversation, index) =>
+              <ListItem
+                alignItems="flex-start"
+                button
+                onClick={() => { setTableData(undefined); selectChat(conversation, index) }}
                 selected={selectedIndex === index}
-                >
+              >
                 <ListItemIcon>
                   <ChatIcon />
                 </ListItemIcon>
@@ -112,10 +102,8 @@ function App() {
 
         <div id="contentWrapper" style={{ display: "flex", flex: 3, flexDirection: "column" }}>
 
-          <Table data={tableData} isLoading={showSpinner && !tableData} />
+          <Table data={tableData} isLoading={showSpinner && !tableData} eventCount={chats.conversations.length} />
         </div>
-
-        {/* {selectedConversation && <MessaageContent conversation={selectedConversation} />} */}
 
       </div>
 

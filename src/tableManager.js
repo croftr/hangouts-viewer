@@ -64,6 +64,7 @@ const deriveContent = (event) => {
 export const convertForTable = (data) => {
 
     return {
+        title: data.conversation.conversation.name,
         columns: [
             { title: "Date", field: "date", type: "datetime" },
             { title: 'Type', field: 'type' },
