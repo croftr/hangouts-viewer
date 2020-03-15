@@ -13,11 +13,11 @@ const deriveContent = (event) => {
                 })
 
             }
-
+            break;
         }
         case "RENAME_CONVERSATION": {
             return `From: ${event.conversation_rename ? event.conversation_rename.old_name : ""} To: ${event.conversation_rename ? event.conversation_rename.new_name : ""}`
-
+            
         }
         case "HANGOUT_EVENT": {
             return event.hangout_event.event_type;
