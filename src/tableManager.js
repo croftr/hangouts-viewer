@@ -1,3 +1,18 @@
+import React from 'react';
+
+const getImage = (event) => {
+    let url  = undefined;
+    if (event && event.chat_message && event.chat_message.message_content.attachment) {
+        const attachment = event.chat_message.message_content.attachment[0];        
+        if (attachment) {
+            url = attachment.embed_item && attachment.embed_item.plus_photo && attachment.embed_item.plus_photo.thumbnail ? attachment.embed_item.plus_photo.thumbnail.url : "";
+            // image = <img style="-webkit-user-select: none;margin: auto;" src={url}></img>       
+        }
+    }
+    
+    return url;
+}
+
 const deriveContent = (event) => {
 
     switch (event.event_type) {
@@ -18,7 +33,7 @@ const deriveContent = (event) => {
                     let url;
                     if (attachment) {
                         url = attachment.embed_item && attachment.embed_item.plus_photo && attachment.embed_item.plus_photo.thumbnail ? attachment.embed_item.plus_photo.thumbnail.url : "";
-                    }                    
+                    }
                     content = url;
                 } else {
                     console.warn(event.chat_message)
@@ -46,14 +61,14 @@ const deriveContent = (event) => {
 }
 
 export const convertForTable = (data) => {
-    console.log(data);
 
     return {
         columns: [
             { title: "Date", field: "date", type: "datetime" },
             { title: 'Type', field: 'type' },
             { title: 'Content', field: 'content' },
+            { title: 'Image', field: 'image', render: rowData =>  <a href={rowData.image}><img src={rowData.image} style={{ width: 100, height: 100 }}/> </a>}
         ],
-        rows: data.events.map(event => { return { date: new Date(event.timestamp / 1000), type: event.event_type, content: deriveContent(event) } }),
+        rows: data.events.map(event => { return { date: new Date(event.timestamp / 1000), type: event.event_type, content: deriveContent(event), image: getImage(event) } }),
     }
 }
