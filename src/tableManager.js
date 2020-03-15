@@ -32,7 +32,8 @@ const deriveContent = (event) => {
                     const attachment = event.chat_message.message_content.attachment[0];
                     let url;
                     if (attachment) {
-                        url = attachment.embed_item && attachment.embed_item.plus_photo && attachment.embed_item.plus_photo.thumbnail ? attachment.embed_item.plus_photo.thumbnail.url : "";
+                        url = "Image"
+                        // url = attachment.embed_item && attachment.embed_item.plus_photo && attachment.embed_item.plus_photo.thumbnail ? attachment.embed_item.plus_photo.thumbnail.url : "";
                     }
                     content = url;
                 } else {
@@ -72,7 +73,7 @@ export const convertForTable = (data) => {
                 sorting: false, 
                 searchable: false,
                 disableClick: true,
-                render: rowData =>  <a href={rowData.image}><img src={rowData.image} style={{ width: 100, height: 100 }}/> </a>
+                render: rowData => rowData.image ? <a href={rowData.image}><img src={rowData.image} style={{ width: 100, height: 100 }}/> </a> : ""
             }
         ],
         rows: data.events.map(event => { return { date: new Date(event.timestamp / 1000), type: event.event_type, content: deriveContent(event), image: getImage(event) } }),
