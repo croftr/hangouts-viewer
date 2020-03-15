@@ -45,7 +45,7 @@ const deriveContent = (event) => {
 
         }
         case "RENAME_CONVERSATION": {
-            return `From: ${event.conversation_rename ? event.conversation_rename.old_name : ""} To: ${event.conversation_rename ? event.conversation_rename.new_name : ""}`
+            return `${event.conversation_rename ? event.conversation_rename.old_name : ""}  >>>  ${event.conversation_rename ? event.conversation_rename.new_name : ""}`
 
         }
         case "HANGOUT_EVENT": {
